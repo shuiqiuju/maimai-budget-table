@@ -1,0 +1,13 @@
+{
+  "name": "maimai-budget-table",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "麦麦预算配餐台：可解释的预算搭配与 HTTP MCP 菜单接入",
+  "engines": { "node": ">=22.6" },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.mjs",
+    "test": "node --test",
+    "check": "node --check server.mjs && node --check public/app.js && node --test"
+  }
+}

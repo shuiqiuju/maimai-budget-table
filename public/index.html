@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="麦麦预算配餐台：给预算一个好好吃饭的答案。比较搭配，导出小票，连接真实门店菜单。">
+  <title>麦麦预算配餐台 · 今天怎么点？</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23ffcf43'/%3E%3Ctext x='12' y='45' font-size='40'%3E🍔%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/style.css"><script src="/app.js" type="module"></script>
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="/" aria-label="麦麦预算配餐台首页"><span class="brand-icon">≋</span><span>麦麦<span class="brand-light">预算配餐台</span></span></a><div class="top-actions"><span class="edition">THE BUDGET TABLE / 01</span><button class="text-button" id="open-connect">连接真实菜单 <span aria-hidden="true">↗</span></button></div></header>
+  <main>
+    <section class="hero">
+      <div><div class="eyebrow"><span class="tiny-line"></span> 今天的快乐，有个好预算</div><h1>预算刚刚好，<br>这一餐<span class="underline">有着落。</span></h1><p class="hero-copy">告诉我几个人、花多少钱。<br>把选择交给配餐台，把好心情留给午餐。</p><div class="hero-tags"><span>✓ 每人一份主食</span><span>✓ 总价不超预算</span><span>✓ 每一项算明白</span></div></div>
+      <div class="hero-art" aria-hidden="true"><div class="orbit-text">HAVE A GOOD LUNCH!</div><div class="plate"><div class="burger"><div class="bun-top"><i></i><i></i><i></i><i></i><i></i></div><div class="lettuce"></div><div class="cheese"></div><div class="patty"></div><div class="bun-bottom"></div></div></div><div class="art-note">快乐不用<br><strong>超预算 :)</strong></div><span class="art-spark">✳</span></div>
+    </section>
+    <section class="workspace" aria-label="配餐工作台">
+      <aside class="settings">
+        <div class="section-label">01 / 定个小目标</div><h2>今天，怎么吃？</h2>
+        <form id="planner-form">
+          <label class="field-label" for="budget">这顿总预算 <span>所有人合计</span></label>
+          <div class="budget-input"><span>¥</span><input id="budget" name="budget" type="number" min="1" max="500" step="0.01" value="35" required aria-describedby="budget-help"></div>
+          <div id="budget-help" class="sr-only">预算范围 1 到 500 元，最多两位小数</div>
+          <div class="presets" aria-label="预算快捷选择"><button type="button" data-budget="25">¥25</button><button type="button" data-budget="35" class="active">¥35</button><button type="button" data-budget="50">¥50</button><button type="button" data-budget="80">¥80</button></div>
+          <label class="field-label" for="people">一起吃的人</label><div class="people-row"><button type="button" id="people-minus" aria-label="减少一人">−</button><div><input id="people" type="number" min="1" max="6" value="1" required aria-label="用餐人数"><span>人</span></div><button type="button" id="people-plus" aria-label="增加一人">+</button></div>
+          <label class="field-label" for="preference">主食偏好</label><select id="preference"><option value="any">都可以，帮我选</option><option value="chicken">今天想吃鸡肉</option><option value="beef">今天想吃牛肉</option><option value="fish">今天想吃鱼肉</option></select>
+          <label class="check-label"><input id="drink" type="checkbox" checked><span>每人配一杯饮品</span><span aria-hidden="true">🥤</span></label>
+          <button type="submit" class="primary" id="generate">帮我搭一餐 <span aria-hidden="true">→</span></button>
+          <p class="form-note">每人搭配相同。口味偏好仅筛选主食，<br>不作为过敏原或特殊饮食判断。</p>
+        </form>
+      </aside>
+      <div class="results-area">
+        <div class="result-heading"><div><div class="section-label">02 / 你的午餐灵感</div><h2>把纠结，变成好选择。</h2></div><div class="mode-switch" role="group" aria-label="数据来源"><button id="demo-mode" class="selected" aria-pressed="true">演示</button><button id="live-mode" aria-pressed="false">真实菜单</button></div></div>
+        <div class="source-strip" id="source-strip"><span class="status-dot"></span><span id="source-text">演示菜单 · 全部为示例价格，不代表门店售价</span></div>
+        <div id="result-status" class="result-status" role="status" aria-live="polite"></div>
+        <div id="results" class="cards"></div>
+        <div class="method-note"><span class="method-symbol">↳</span><div><strong>少花一点，还是丰富一点？你说了算。</strong><p>遍历菜单中的「主食 + 可选小食 + 可选饮品」，在预算内比较。<br>展示的是单品价合计，不含优惠券、配送费或套餐优惠。</p></div></div>
+        <details class="menu-details"><summary>查看当前计算菜单 <span id="menu-count"></span></summary><div id="menu-list" class="menu-list"></div></details>
+      </div>
+    </section>
+    <section class="steps"><div><span>01</span><p><strong>定预算</strong>一个人吃，或和朋友一起。</p></div><div><span>02</span><p><strong>看取舍</strong>每种推荐，都有理由。</p></div><div><span>03</span><p><strong>带走小票</strong>复制或下载，再去官方渠道点餐。</p></div></section>
+  </main>
+  <footer><span>麦麦预算配餐台 <span aria-hidden="true">✳</span> 为每一顿小确幸</span><p>独立开发的参赛作品，非麦当劳官方产品。价格与供应以官方渠道实时结果为准。</p></footer>
+  <dialog id="connect-dialog" aria-labelledby="connect-title"><div class="dialog-head"><div><div class="section-label">CONNECT / 官方 MCP</div><h2 id="connect-title">把真实菜单接进来</h2></div><button class="close-button" id="close-connect" aria-label="关闭连接窗口">×</button></div>
+    <p class="dialog-intro">通过本机服务直连麦当劳。仅查询门店与菜单，不会创建订单。</p>
+    <p class="connection-status" id="connection-status" role="status"></p>
+    <div id="live-quick"><div class="quick-grid"><label class="field-label" for="city">城市<input id="city" type="text" value="上海" maxlength="80"></label><label class="field-label" for="landmark">商圈或地标<input id="landmark" type="text" value="人民广场" maxlength="80"></label></div><p class="hint">当前支持到店自取。城市和地标将发送至麦当劳，仅用于查询门店。</p><button class="secondary" id="search-stores">搜索营业门店 →</button><div id="store-results"></div><div id="quick-preview" hidden><h3 id="preview-title">核对这份菜单</h3><p class="hint" id="preview-note"></p><div class="menu-list" id="preview-items"></div><button class="primary" id="activate-menu">使用这份菜单配餐 →</button></div></div>
+    <details id="developer-tools"><summary>手动接入与字段核对</summary>
+      <p class="hint">先读取官方工具说明，再按当前参数查询门店和菜单。门店编码应取自官方返回，不能随意填写。</p>
+      <button class="secondary" id="load-tools">读取官方工具参数</button>
+      <label class="field-label" for="tool-name">查询工具</label><select id="tool-name"><option value="query-nearby-stores">查询附近门店</option><option value="query-meals">查询门店菜单</option></select>
+      <details><summary>查看当前工具的参数说明</summary><pre id="tool-schema">连接后显示官方 inputSchema。</pre></details>
+      <label class="field-label" for="tool-args">查询参数（JSON）</label><textarea id="tool-args" rows="5" spellcheck="false">{}</textarea>
+      <button class="secondary" id="query-tool">读取官方数据</button>
+      <details><summary>查看最近一次官方返回</summary><pre id="raw-result">尚未查询。</pre></details>
+      <div id="mapping" hidden>
+        <h3>核对单品菜单</h3><p class="hint">只选择可独立购买、有确定价格的单品。排除套餐、起价、需选规格的商品；确认单位后再计算。</p>
+        <label class="field-label" for="array-path">餐品列表</label><select id="array-path"></select>
+        <div class="mapping-fields"><label>名称字段<select id="name-field"></select></label><label>价格字段<select id="price-field"></select></label><label>价格单位<select id="price-unit"><option value="">请选择</option><option value="yuan">元</option><option value="fen">分</option></select></label></div>
+        <label class="field-label" for="store-label">门店及就餐方式</label><input id="store-label" type="text" placeholder="例如：某某店 · 到店自取" maxlength="100">
+        <div id="mapping-rows"></div><button class="primary" id="import-menu">确认并用于配餐 →</button>
+      </div>
+    </details>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+</body></html>
